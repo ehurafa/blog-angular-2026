@@ -1,0 +1,27 @@
+<mat-card class="form-card">
+  <mat-card-header>
+    <mat-card-title>{{ isEditMode() ? 'Editar post' : 'Novo post' }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form (ngSubmit)="submit()" #form="ngForm">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Título</mat-label>
+        <input matInput name="title" [(ngModel)]="title" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Conteúdo</mat-label>
+        <textarea matInput name="content" rows="10" [(ngModel)]="content" required></textarea>
+      </mat-form-field>
+
+      @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+      }
+
+      <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || saving()">
+        {{ saving() ? 'Salvando...' : 'Salvar' }}
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>
