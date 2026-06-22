@@ -2,13 +2,14 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { DatePipe } from '@angular/common';
 import { PostsService, Post } from '../../../core/posts.service';
 import { AuthService } from '../../../core/auth.service';
 
 @Component({
   selector: 'app-post-detail',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule],
+  imports: [RouterLink, MatCardModule, MatButtonModule, DatePipe],
   templateUrl: './post-detail.html',
   styleUrl: './post-detail.scss',
 })

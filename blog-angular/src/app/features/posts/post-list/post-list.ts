@@ -3,13 +3,14 @@ import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DatePipe, SlicePipe } from '@angular/common';
 import { PostsService, Post } from '../../../core/posts.service';
 import { AuthService } from '../../../core/auth.service';
 
 @Component({
   selector: 'app-post-list',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule],
+  imports: [RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule,DatePipe, SlicePipe],
   templateUrl: './post-list.html',
   styleUrl: './post-list.scss',
 })
