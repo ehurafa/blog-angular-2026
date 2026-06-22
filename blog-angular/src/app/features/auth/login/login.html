@@ -1,0 +1,39 @@
+<div class="login-wrapper">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>{{ isSignUpMode() ? 'Criar conta' : 'Entrar' }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form (ngSubmit)="submit()" #form="ngForm">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" name="email" [(ngModel)]="email" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Senha</mat-label>
+          <input matInput type="password" name="password" [(ngModel)]="password" required minlength="6" />
+        </mat-form-field>
+
+        @if (errorMessage()) {
+          <p class="error">{{ errorMessage() }}</p>
+        }
+
+        <button mat-flat-button color="primary" type="submit" class="full-width" [disabled]="form.invalid || loading()">
+          @if (loading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            {{ isSignUpMode() ? 'Cadastrar' : 'Entrar' }}
+          }
+        </button>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button (click)="toggleMode()" type="button">
+        {{ isSignUpMode() ? 'Já tem conta? Entrar' : 'Não tem conta? Cadastre-se' }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
