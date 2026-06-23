@@ -7,29 +7,29 @@
     <form (ngSubmit)="submit()" #form="ngForm">
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Título</mat-label>
-        <input matInput name="title" [(ngModel)]="title" required />
+        <input matInput name="title" [ngModel]="title()" (ngModelChange)="title.set($event)" required />
       </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
+     <mat-form-field appearance="outline" class="full-width">
         <mat-label>Categoria</mat-label>
-        <mat-select name="category" [(ngModel)]="categoryId" required>
-          @for (cat of categories(); track cat.id) {
+        <mat-select name="category" [ngModel]="categoryId()" (ngModelChange)="categoryId.set($event)" required>
+            @for (cat of categories(); track cat.id) {
             <mat-option [value]="cat.id">{{ cat.name }}</mat-option>
-          }
+            }
         </mat-select>
-      </mat-form-field>
+    </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>URL da imagem de capa (opcional)</mat-label>
-        <input matInput name="coverUrl" [(ngModel)]="coverUrl" placeholder="https://..." />
+        <input matInput name="coverUrl" [ngModel]="coverUrl()" (ngModelChange)="coverUrl.set($event)" placeholder="https://..." />
       </mat-form-field>
 
       <p class="preview-label">Pré-visualização da capa:</p>
-      <app-post-cover [coverUrl]="coverUrl" [title]="title" [seed]="postId() ?? title"></app-post-cover>
+      <app-post-cover [coverUrl]="coverUrl()" [title]="title()" [seed]="postId() ?? title()"></app-post-cover>
 
       <mat-form-field appearance="outline" class="full-width content-field">
         <mat-label>Conteúdo</mat-label>
-        <textarea matInput name="content" rows="10" [(ngModel)]="content" required></textarea>
+        <textarea matInput name="content" rows="10" [ngModel]="content()" (ngModelChange)="content.set($event)" required></textarea>
       </mat-form-field>
 
       @if (errorMessage()) {

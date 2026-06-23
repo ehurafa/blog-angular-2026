@@ -26,10 +26,10 @@ export class PostFormComponent implements OnInit {
   postId = signal<number | null>(null);
   categories = signal<Category[]>([]);
 
-  title = '';
-  content = '';
-  categoryId: number | null = null;
-  coverUrl = '';
+  title = signal('');
+  content = signal('');
+  categoryId = signal<number | null>(null);
+  coverUrl = signal('');
   saving = signal(false);
   errorMessage = signal('');
 
@@ -41,10 +41,10 @@ export class PostFormComponent implements OnInit {
       const id = Number(idParam);
       this.postId.set(id);
       const post = await this.postsService.getById(id);
-      this.title = post.title;
-      this.content = post.content;
-      this.categoryId = post.category_id;
-      this.coverUrl = post.cover_url ?? '';
+      this.title.set(post.title);
+      this.content.set(post.content);
+      this.categoryId.set(post.category_id);
+      this.coverUrl.set(post.cover_url ?? '');
     }
   }
 
@@ -57,10 +57,10 @@ export class PostFormComponent implements OnInit {
     this.errorMessage.set('');
     try {
       const payload = {
-        title: this.title,
-        content: this.content,
-        category_id: this.categoryId!,
-        cover_url: this.coverUrl.trim() || null,
+        title: this.title(),
+        content: this.content(),
+        category_id: this.categoryId()!,
+        cover_url: this.coverUrl().trim() || null,
       };
       if (this.isEditMode()) {
         await this.postsService.update(this.postId()!, payload);
