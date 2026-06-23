@@ -6,11 +6,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DatePipe, SlicePipe } from '@angular/common';
 import { PostsService, Post } from '../../../core/posts.service';
 import { AuthService } from '../../../core/auth.service';
+import { PostCoverComponent } from '../../../shared/post-cover/post-cover';
+// no @Component, adiciona PostCoverComponent ao array imports
 
 @Component({
   selector: 'app-post-list',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule,DatePipe, SlicePipe],
+  imports: [RouterLink, MatCardModule, MatButtonModule, MatProgressSpinnerModule,DatePipe, SlicePipe, PostCoverComponent],
   templateUrl: './post-list.html',
   styleUrl: './post-list.scss',
 })

@@ -13,9 +13,13 @@
   <div class="post-grid">
     @for (post of posts(); track post.id) {
       <mat-card class="post-card" [routerLink]="['/posts', post.id]">
+        <app-post-cover [coverUrl]="post.cover_url" [title]="post.title" [seed]="post.id"></app-post-cover>
         <mat-card-header>
-          <mat-card-title>{{ post.title }}</mat-card-title>
-          <mat-card-subtitle>{{ post.author_email }} · {{ post.created_at | date:'dd/MM/yyyy' }}</mat-card-subtitle>
+            <mat-card-title>{{ post.title }}</mat-card-title>
+            <mat-card-subtitle>
+            <span class="category-badge">{{ post.category?.name }}</span>
+            · {{ post.author_email }} · {{ post.created_at | date:'dd/MM/yyyy' }}
+            </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <p>{{ post.content | slice:0:150 }}{{ post.content.length > 150 ? '...' : '' }}</p>

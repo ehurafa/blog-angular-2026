@@ -5,11 +5,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { DatePipe } from '@angular/common';
 import { PostsService, Post } from '../../../core/posts.service';
 import { AuthService } from '../../../core/auth.service';
+import { PostCoverComponent } from '../../../shared/post-cover/post-cover';
+// no @Component, adiciona PostCoverComponent ao array imports
 
 @Component({
   selector: 'app-post-detail',
   standalone: true,
-  imports: [RouterLink, MatCardModule, MatButtonModule, DatePipe],
+  imports: [RouterLink, MatCardModule, MatButtonModule, DatePipe, PostCoverComponent],
   templateUrl: './post-detail.html',
   styleUrl: './post-detail.scss',
 })

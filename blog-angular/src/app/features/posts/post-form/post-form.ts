@@ -5,12 +5,15 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 import { PostsService } from '../../../core/posts.service';
+import { CategoriesService, Category } from '../../../core/categories.service';
+import { PostCoverComponent } from '../../../shared/post-cover/post-cover';
 
 @Component({
   selector: 'app-post-form',
   standalone: true,
-  imports: [FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [FormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatSelectModule, PostCoverComponent],
   templateUrl: './post-form.html',
   styleUrl: './post-form.scss',
 })
@@ -18,16 +21,21 @@ export class PostFormComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private postsService = inject(PostsService);
+  private categoriesService = inject(CategoriesService);
 
-  // Se tiver :id na rota, é edição. Se não, é criação.
   postId = signal<number | null>(null);
+  categories = signal<Category[]>([]);
 
   title = '';
   content = '';
+  categoryId: number | null = null;
+  coverUrl = '';
   saving = signal(false);
   errorMessage = signal('');
 
   async ngOnInit() {
+    this.categories.set(await this.categoriesService.getAll());
+
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
       const id = Number(idParam);
@@ -35,6 +43,8 @@ export class PostFormComponent implements OnInit {
       const post = await this.postsService.getById(id);
       this.title = post.title;
       this.content = post.content;
+      this.categoryId = post.category_id;
+      this.coverUrl = post.cover_url ?? '';
     }
   }
 
@@ -45,13 +55,18 @@ export class PostFormComponent implements OnInit {
   async submit() {
     this.saving.set(true);
     this.errorMessage.set('');
-
     try {
+      const payload = {
+        title: this.title,
+        content: this.content,
+        category_id: this.categoryId!,
+        cover_url: this.coverUrl.trim() || null,
+      };
       if (this.isEditMode()) {
-        await this.postsService.update(this.postId()!, { title: this.title, content: this.content });
+        await this.postsService.update(this.postId()!, payload);
         this.router.navigate(['/posts', this.postId()]);
       } else {
-        await this.postsService.create({ title: this.title, content: this.content });
+        await this.postsService.create(payload);
         this.router.navigate(['/posts']);
       }
     } catch (err) {
